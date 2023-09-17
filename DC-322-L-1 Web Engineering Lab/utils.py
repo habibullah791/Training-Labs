@@ -1,7 +1,11 @@
 # utils.py
 
 import os
+
+
 def startProgram():
+    """Display initial program header."""
+
     os.system('cls')
     print("---------------------")
     print("***  ATM System  ***")
@@ -11,8 +15,9 @@ def startProgram():
     print("---------------------")
 
 
-# register header logs
 def registerHeader():
+    """Display registration header."""
+
     os.system('cls')
     print("")
     print("-------------------------------")
@@ -22,6 +27,8 @@ def registerHeader():
 
 # login header logs
 def loginHeader():
+    """Display login header."""
+
     os.system('cls')
     print("")
     print("------------------------")
@@ -31,6 +38,8 @@ def loginHeader():
 
 # login menu
 def loginMenu():
+    """Display login menu options."""
+
     print("")
     print("---------------------")
     print("***  Login Menue  ***")
@@ -42,46 +51,61 @@ def loginMenu():
     print("---------------------\n")
 
 
-# Account created messages log
 def accountCreatedMsg():
+    """Display account creation success message."""
+
     print("--------------------------------------")
     print("***  Account Created Successfully  ***")
     print("--------------------------------------\n")
 
 
-# Account Exist messages log
 def accountExistMsg():
+    """Display account existence error message."""
+
     print("-------------------------------------------------------------")
     print("***  Error !! Account Exist Use different 3 digit combo . ***")
     print("-----------------------------------------------------------\n")
 
 
-# Account not Exist messages log
 def accountNotExistMsg():
+    """Display account non-existence error message."""
+
     print("------------------------------------------------------------------")
     print("***  Error !! Account Not Exist Use different 3 digit combo . ***")
     print("-----------------------------------------------------------------\n")
 
 
-# Withdraw Ammount messages log
 def withdrawAmountMsg():
+    """Display withdrawal confirmation message."""
+
     print("-----------------------------------------")
     print("***  You've Withdrawn the ammount  . ***")
     print("-----------------------------------------")
 
 
-# Deposited Ammount messages log
 def depositAmmountMsg():
+    """Display withdrawal confirmation message."""
+
     print("-----------------------------------------")
     print("***  You've Deposited the ammount  . ***")
     print("-----------------------------------------")
-# validate user input
 
 
 def validateUserInput(min, max, msg):
+    """
+        Validate the user input
+
+        This function will take the min, maz and xustom message
+        and check if the user enter the right value until its
+        right and then retuen the correct value
+
+        Returns:
+        user input
+    """
 
     while True:
         try:
+
             choice = int(input(msg + " : "))
             if min <= choice <= max:
                 return choice
@@ -91,9 +115,16 @@ def validateUserInput(min, max, msg):
             print("Invalid Input: Please enter a valid integer.")
 
 
-# Read data from the file and return the data dictionary
 def readDataFromFile():
+    """
+        Read Data from the file and store in a variable
 
+        This function will read data from file and store the 
+        data in a list of dictionary and then return it 
+
+        Return:
+        atmData
+    """
     atmData = []
 
     with open('atmData.txt', 'r') as file:
@@ -112,8 +143,18 @@ def readDataFromFile():
     return atmData
 
 
-# write data to the file and print success mesage
 def writeDataToFile(accountDetails):
+    """
+        Write data to the file 
+
+        This function will get the list of dictionary 
+        and then convert each dictionary in list and then 
+        in string and overite the existing file it will be 
+        account detail of one new user
+
+        Return:
+        none
+    """
 
     accountData = [str(item) for item in accountDetails]
     accountData = ','.join(accountData)
@@ -124,8 +165,17 @@ def writeDataToFile(accountDetails):
     accountCreatedMsg()
 
 
-# update the file
 def updatfileData(atmData):
+    """
+        Upate data of existing user in file
+
+        This function will get the list of dictionary 
+        and then convert each dictionary in list and then 
+        in string and overite the existing file
+
+        Return:
+        none
+    """
 
     with open('atmData.txt', 'w') as file:
 
@@ -135,8 +185,18 @@ def updatfileData(atmData):
             file.write(accountData+"\n")
 
 
-# check if account existed
 def isAccountExist(accountNumber):
+    """
+        check If account Exist
+
+        This function have a accountnumber as an argument
+        and will read data from file and then iterate the data 
+        and check if the user exist or not 
+
+        Returns:
+        True or False
+    """
+
     atmData = readDataFromFile()
 
     for account in atmData:
@@ -149,6 +209,16 @@ def isAccountExist(accountNumber):
 # check if the user exist
 
 def isUserExist(accountNumber, accountPassword):
+    """
+        check If user Exist
+
+        This function have a accountnumber, and password as an argument
+        and will read data from file and then iterate the data 
+        and check if the user exist or not 
+
+        Returns:
+        True or False
+    """
 
     atmData = readDataFromFile()
     for account in atmData:
