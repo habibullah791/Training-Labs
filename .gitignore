@@ -1,0 +1,10 @@
+# Ignore PDF files
+*.pdf
+
+# Ignore helper files (adjust the file extensions as needed)
+*.bak
+*.swp
+*.tmp
+
+# Ignore a directory named "helpers" and all its contents
+/helpers/
