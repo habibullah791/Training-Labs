@@ -8,3 +8,6 @@
 
 # Ignore a directory named "helpers" and all its contents
 /helpers/
+
+# Ignore Python byte code cache files
+__pycache__/
