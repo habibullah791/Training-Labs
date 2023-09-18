@@ -1,49 +1,46 @@
-import utils
+from utils import *
 
 
 def registerAccount():
     """
-        Allows a user to create a new account.
+         Allows a user to create a new account.
 
-        This function prompts the user to enter a 3-digit account number and a 4-digit password.
-        It checks if the entered account number already exists. If it does, a message is displayed.
-        If the account number is unique, the function creates a new account with an initial balance of 100
-        and stores the account details in a data file.
-
-        Returns:
-        None
+        @param a: first number (3-digit account number)
+        @param b: second number (4-digit password)
+        @desc: Create a new account with an initial balance of 100 if the account number is unique.
+        @return: None
         """
-
-    accountDetails = []
-    utils.registerHeader()
+    registerHeader()
 
     while True:
-        accountNumber = utils.validateUserInput(
+        accountNumber = validateUserInput(
             0, 999, "Enter 3 digit Account Number")
-        accountPassword = utils.validateUserInput(
-            0, 9999, "Enter 4 digit password")
+        accountPassword = validateUserInput(0, 9999, "Enter 4 digit password")
 
         accountNumber = "ATM" + str(accountNumber).zfill(3)
-        if utils.isAccountExist(accountNumber):
-            utils.accountExistMsg()
+        if isAccountExist(accountNumber):
+            accountExistMsg()
         else:
-            accountDetails = [accountNumber, accountPassword, 100]
-            utils.writeDataToFile(accountDetails)
+            atmData.append({
+                "account_number": accountNumber,
+                "account_password": accountPassword,
+                "account_balance": 100
+            })
+            accountCreatedMsg()
             break
 
 
 def checkBalance(accountNumber):
     """
-        Allows a user to check his/her balance.
+        Allows a user to check their account balance.
 
-        This function will take account number as an argument
-        read data from file and on through iterating that data
-        check the balance of the user
+        @param accountNumber: The account number of the user.
+        @desc: This function takes an account number as an argument, 
+            reads data from a file, and iterates through the data
+            to check the balance of the user.
 
-        Returns:
-        account balance
+        @return: The account balance of the user.
     """
-    atmData = utils.readDataFromFile()
 
     for account in atmData:
         if accountNumber == account["account_number"]:
@@ -52,20 +49,18 @@ def checkBalance(accountNumber):
 
 def withdrawAmount(accountNumber):
     """
-        Allows a user to withdraw his/her funds.
+        Allow a user to withdraw funds from their account.
 
-        This function will take account number as an argument
-        read data from file and on through iterating that data
-        and check if the withdraw ammount is equal or greater than
-        the balance then upate the object.
+        @param accountNumber: The account number of the user.
+        @desc: This function reads data from a file, iterates through the data,
+            and checks if the withdrawal amount is equal to or greater than
+            the account balance. If sufficient funds are available, it updates
+            the account balance accordingly.
 
-        Returns:
-        updated atmData
+        @return: The updated account data.
     """
 
-    atmData = utils.readDataFromFile()
-
-    withdrawAmount = utils.validateUserInput(
+    withdrawAmount = validateUserInput(
         0, 99999999, "Enter Amount to withdraw: ")
 
     for account in atmData:
@@ -74,75 +69,69 @@ def withdrawAmount(accountNumber):
             if withdrawAmount <= account_balance:
                 account["account_balance"] = str(
                     account_balance - withdrawAmount)
-                return atmData
+                return True
+            else:
+                return False
 
 
 def depositAmmount(accountNumber):
     """
-        Allows a user to Deposit his/her funds.
+        Allows a user to Deposit funds into their account.
 
-        This function will take account number as an argument
-        read data from file and on through iterating that data
-        and check if the withdraw ammount is equal or greater than
-        the balance then upate the object.
-
-        Returns:
-        updated atmData
+        @param accountNumber: The account number of the user.
+        @desc: This function takes the account number as an argument,
+            reads data from a file, iterates through the data,
+            and checks if the deposit amount is valid.
+        @return: Updated atmData, which is an array of user dictionaries
+                that have been updated after the deposit has been made.
     """
 
-    atmData = utils.readDataFromFile()
-
-    depositAmmount = utils.validateUserInput(
-        0, 99999999, "Enter Amount to withdraw: ")
+    depositAmmount = validateUserInput(0, 99999999, "Enter Amount to withdraw: ")
 
     for account in atmData:
         if accountNumber == account["account_number"]:
             account_balance = int(account["account_balance"])
-            account["account_balance"] = str(
-                account_balance + depositAmmount)
-            return atmData
+            account["account_balance"] = str(account_balance + depositAmmount)
+            return True
+        else:
+            False
 
 
 def loginAccount():
     """
-    Allows a user to log in to their account.
+        User Account Login Function
 
-    This function prompts the user to enter their account number (in the format ATM000)
-    and a 4-digit password. It checks if the entered credentials match an existing account.
-    If the login is successful, it presents a menu for the user to check their balance, withdraw,
-    deposit, or quit. It continues to display the menu until the user chooses to quit.
-
-    Returns:
-    None
+        @param account_number: The user's account number (in the format ATM000).
+        @param password: A 4-digit password for account authentication.
+        @desc: Allows a user to log in to their account by verifying the provided credentials.
+            If successful, it presents a menu for balance checking, withdrawal, deposit, or quitting.
+        @return: None
     """
-    utils.loginHeader()
+    loginHeader()
 
     while True:
         accountNumber = input("Enter your account no : i.e ATM000 : ")
-        accountPassword = utils.validateUserInput(
-            0, 9999, "Enter 4-digit password")
+        accountPassword = validateUserInput(0, 9999, "Enter 4-digit password")
 
-        if utils.isUserExist(accountNumber, accountPassword):
+        if isUserExist(accountNumber, accountPassword):
             while True:
-                utils.loginMenu()
-                choice = utils.validateUserInput(1, 4, "Enter Your Choice : ")
+                loginMenu()
+                choice = validateUserInput(1, 4, "Enter Your Choice : ")
 
                 if choice == 1:
                     balance = checkBalance(accountNumber)
                     print("Account balance is : ", balance)
                 elif choice == 2:
-                    atmData = withdrawAmount(accountNumber)
-                    utils.updatfileData(atmData)
-                    utils.withdrawAmountMsg()
+                    withdrawAmount(accountNumber)
+                    withdrawAmountMsg()
                 elif choice == 3:
-                    atmData = depositAmount(accountNumber)
-                    utils.updatfileData(atmData)
-                    utils.depositAmountMsg()
+                    depositAmmount(accountNumber)
+                    depositAmmountMsg()
                 else:
                     print("Quitting")
                     return
         else:
-            utils.accountNotExistMsg()
+            accountNotExistMsg()
 
 
 if __name__ == "__main__":
@@ -150,19 +139,18 @@ if __name__ == "__main__":
     """
         This script presents a menu-driven program for user account management.
 
-        It repeatedly displays a menu with two options: login or register an account. The user is prompted to choose one of these options, and their choice is validated. After performing the chosen action (login or registration), the user is asked if they want to continue. The program continues to run until the user decides to exit.
-
-        Usage:
-        1. Run this script.
-        2. Choose between login (1) or registration (2).
-        3. After each operation, you can choose to continue or exit by entering 'yes' or 'no'.
-
-        Note: The actual implementation of 'loginAccount' and 'registerAccount' functions is not shown in this code snippet.
+        It repeatedly displays a menu with two options: login or register an account. 
+        The user is prompted to choose one of these options, and their choice is validated. 
+        After performing the chosen action (login or registration), the user is asked if they want to continue. 
+        The program continues to run until the user decides to exit.
     """
-    
+
+    # Call the readDataFromFile function to populate atmData
+    readDataFromFile()
+
     while True:
-        utils.startProgram()
-        choice = utils.validateUserInput(1, 2, "Enter Your Choice : ")
+        startProgram()
+        choice = validateUserInput(1, 2, "Enter Your Choice : ")
 
         if choice == 1:
             loginAccount()
@@ -171,4 +159,5 @@ if __name__ == "__main__":
 
         continue_choice = input("Do you want to continue? (yes/no): ")
         if continue_choice.lower() != "yes":
+            updatfileData()
             break

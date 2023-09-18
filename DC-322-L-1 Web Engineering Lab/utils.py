@@ -1,6 +1,10 @@
 # utils.py
-
 import os
+
+
+
+#globalVariables
+atmData = []
 
 
 def startProgram():
@@ -93,14 +97,17 @@ def depositAmmountMsg():
 
 def validateUserInput(min, max, msg):
     """
-        Validate the user input
+        Validate the user input.
 
-        This function will take the min, maz and xustom message
-        and check if the user enter the right value until its
-        right and then retuen the correct value
+            @param min_value: The minimum allowed value for user input.
+            @param max_value: The maximum allowed value for user input.
+            @param message: A custom message to prompt the user for input.
 
-        Returns:
-        user input
+            @desc: This function repeatedly prompts the user for input until they enter a valid value
+            within the specified range (inclusive of min_value and max_value). It uses the provided
+            message as the input prompt.
+
+            @return: The validated user input that falls within the specified range.
     """
 
     while True:
@@ -117,87 +124,65 @@ def validateUserInput(min, max, msg):
 
 def readDataFromFile():
     """
-        Read Data from the file and store in a variable
+        Read data from a file and store it in a list of dictionaries.
 
-        This function will read data from file and store the 
-        data in a list of dictionary and then return it 
-
-        Return:
-        atmData
-    """
-    atmData = []
-
-    with open('atmData.txt', 'r') as file:
-
-        for line in file:
-            parts = line.strip().split(",")
-
-            if len(parts) == 3:
-                accountNumber, accountPassword, balance = parts
-                atmData.append({
-                    "account_number": accountNumber,
-                    "account_password": accountPassword,
-                    "account_balance": balance
-                })
-
-    return atmData
-
-
-def writeDataToFile(accountDetails):
-    """
-        Write data to the file 
-
-        This function will get the list of dictionary 
-        and then convert each dictionary in list and then 
-        in string and overite the existing file it will be 
-        account detail of one new user
-
-        Return:
-        none
+        @param: None
+        @desc: Read data from the file and store it in a list of dictionaries.
+        @return: List of dictionaries containing account data.
     """
 
-    accountData = [str(item) for item in accountDetails]
-    accountData = ','.join(accountData)
+    try:
+        with open('atmData.txt', 'r') as file:
+            for line in file:
+                parts = line.strip().split(",")
 
-    with open('atmData.txt', 'a') as file:
-        file.write(accountData+"\n")
+                if len(parts) == 3:
+                    accountNumber, accountPassword, balance = parts
+                    atmData.append({
+                        "account_number": accountNumber,
+                        "account_password": accountPassword,
+                        "account_balance": balance
+                    })
+    except FileNotFoundError:
+        print("The file 'atmData.txt' was not found.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
-    accountCreatedMsg()
 
 
-def updatfileData(atmData):
+def updatfileData():
     """
-        Upate data of existing user in file
+    Update data of existing user in file
 
-        This function will get the list of dictionary 
-        and then convert each dictionary in list and then 
-        in string and overite the existing file
-
-        Return:
-        none
+    @param atmData: A list of dictionary containing account data
+    @desc: This function takes a list of dictionaries representing account data
+        and updates the data in an existing file.
+    @return: None
     """
 
-    with open('atmData.txt', 'w') as file:
+    try:
+        with open('atmData.txt', 'w') as file:
 
-        for data in atmData:
-            accountData = [str(data[key]) for key in data]
-            accountData = ','.join(accountData)
-            file.write(accountData+"\n")
+            for data in atmData:
+                # Convert each item in accountDetails to a string
+                accountData = [str(data[key]) for key in data]
+                # Join the string items using a comma as the separator
+                accountData = ','.join(accountData)
+                file.write(accountData + "\n")
+    except Exception as e:
+        print(f"An error occurred while updating the file: {e}")
 
 
 def isAccountExist(accountNumber):
     """
-        check If account Exist
+        Check if an account exists.
 
-        This function have a accountnumber as an argument
-        and will read data from file and then iterate the data 
-        and check if the user exist or not 
-
-        Returns:
-        True or False
+        @param accountNumber: Account number to check.
+        @type accountNumber: str
+        @return: True if the account exists, False otherwise.
+        @rtype: bool
     """
 
-    atmData = readDataFromFile()
 
     for account in atmData:
         if accountNumber == account["account_number"]:
@@ -206,21 +191,17 @@ def isAccountExist(accountNumber):
             return False
 
 
-# check if the user exist
-
 def isUserExist(accountNumber, accountPassword):
     """
-        check If user Exist
+        Check if a user exists.
 
-        This function have a accountnumber, and password as an argument
-        and will read data from file and then iterate the data 
-        and check if the user exist or not 
-
-        Returns:
-        True or False
+        @param accountNumber: The user's account number.
+        @param accountPassword: The user's account password.
+        @desc: This function reads data from a file, iterates through the data, 
+            and checks if a user with the provided account number and password exists.
+        @return: True if the user exists, False otherwise.
     """
 
-    atmData = readDataFromFile()
     for account in atmData:
         if accountNumber == account["account_number"]:
             if accountPassword == int(account["account_password"]):

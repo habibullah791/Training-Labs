@@ -11,19 +11,19 @@ import utils  # Import your 'utils' module here
 class Test_ValidateUserInput(unittest.TestCase):
 
     def test_positive_input(self):
-        with patch('builtins.input', return_value='5'):
+        with patch("builtins.input", return_value="5"):
             result = utils.validateUserInput(
                 1, 10, "Enter a number between 1 and 10")
             self.assertEqual(result, 5)
 
     def test_negative_input(self):
-        with patch('builtins.input', side_effect=['-5', '15', 'abc', '6']):
+        with patch("builtins.input", side_effect=["-5", "15", "abc", "6"]):
             result = utils.validateUserInput(
                 1, 10, "Enter a number between 1 and 10")
             self.assertNotEqual(result, 7)
 
     def test_random_input(self):
-        with patch('builtins.input', side_effect=['8', '9']):
+        with patch("builtins.input", side_effect=["8", "9"]):
             result = utils.validateUserInput(
                 1, 10, "Enter a number between 1 and 10")
             self.assertEqual(result, 8)
@@ -61,5 +61,5 @@ class Test_IsUserExist(unittest.TestCase):
         self.assertFalse(result)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     unittest.main()
