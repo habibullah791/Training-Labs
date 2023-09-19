@@ -3,22 +3,21 @@ from datetime import datetime
 
 
 class Calculations:
-
     def __init__(self, directory_path, options):
-        """
+        '''
             @param directory_path, options: the directory path and options 
             @desc: this constructor will assign value to the object instance 
             @return: none
-        """
+        '''
         self.directory_path = directory_path
         self.options = options
 
     def convert_date_format(self, date_str):
-        """
+        '''
             @param date_str (str): A date string in the 'YYYY-MM-DD' format.
             @desc: Convert a date string from 'YYYY-MM-DD' format to 'Month Day' format.
             @return formatted_date: The formatted date string in 'Month Day' format, e.g., 'January 01'.
-        """
+        '''
         date_obj = datetime.strptime(date_str, '%Y-%m-%d')
         formatted_date = date_obj.strftime('%B %d')
 
@@ -26,14 +25,14 @@ class Calculations:
 
 
     def print_highest_lowest(self, calculations):
-        """
+        '''
             @param calculations: calculations contain highest, lowest temperature and humidity
             @desc: This function will print out the highest, lowest temperature and humidity
             @return: none
-        """                
-        print("\n==========================================")
-        print("Highest, Lowest, Temperature and Humidity")
-        print("==========================================")
+        '''                
+        print('\n==========================================')
+        print('Highest, Lowest, Temperature and Humidity')
+        print('==========================================')
         for calculation in calculations:
             if 'highest_temp' in calculation:
                 print(f"Highest: {calculation['highest_temp']}C on {self.convert_date_format(calculation['date'])}")
@@ -44,31 +43,32 @@ class Calculations:
 
 
     def print_avg_highest_lowest(self, calculations):
-        """
+        '''
             @param calculations: calculations contain average highest, lowest temperature and humidity
             @desc: This function will print out the average highest, lowest temperature and humidity
             @return: none
-        """                
+        '''                
         
-        print("\n====================================================")
-        print("Average of Highest, Lowest, Temperature and Humidity")
-        print("====================================================")
-        print(f"Highest Average: {calculations[0]}C")
-        print(f"Highest Average {calculations[1]}C")
-        print(f"Average Mean Humidity: {calculations[2]}%")
+        print('\n====================================================')
+        print('Average of Highest, Lowest, Temperature and Humidity')
+        print('====================================================')
+        print(f'Highest Average: {calculations[0]}C')
+        print(f'Highest Average {calculations[1]}C')
+        print(f'Average Mean Humidity: {calculations[2]}%')
     
     
     
     def cal_highest_lowest(self, weather_data):
-        """
+        '''
             @param weather_data: It as the data related to certain file 
             @desc: This function will calculate the highest, lowest temperature and humidity
             @return calculations: it has highest, lowest temperature and humidity
-        """                
+        '''                
 
         highest_temp = {'highest_temp': 0, 'date': ''}
         lowest_temp = {'lowest_temp': 1000, 'date': ''}
         highest_humidity = {'highest_humidity': 0, 'date': ''}
+        
 
         for list in weather_data:
             for data in list:
@@ -99,11 +99,11 @@ class Calculations:
         return calculations
 
     def cal_average_highest_lowest(self, weather_data):
-        """
+        '''
             @param weather_data: It as the data related to certain file 
             @desc: This function will calculate the average  highest, lowest temperature and mean  humidity
             @return calculations: it has average highest, lowest temperature and mean humidity
-        """                
+        '''                
         
         highest_temp = 0
         lowest_temp = 0
@@ -133,27 +133,27 @@ class Calculations:
                 
 
     def draw_highest_lowest_chart(self, weather_data):
-        """
+        '''
             @param weather_data: It as the data related to certain file 
             @desc: This function will draw the chart for the highest lowest temperaature
                     the highest temp will be red color and lowest will be blue color
             @return calculations: it has average highest, lowest temperature and mean humidity
-        """                
+        '''                
 
         # Define ANSI escape codes for red and blue text
-        RED = "\033[91m"
-        BLUE = "\033[94m"
-        RESET = "\033[0m"
+        RED = '\033[91m'
+        BLUE = '\033[94m'
+        RESET = '\033[0m'
 
         # Extract the month and year from the weather data
         month = int(weather_data[0][0]['PKT'].split('-')[1])
         year = int(weather_data[0][0]['PKT'].split('-')[0])
 
-        print("\n=======================================")
-        print("Chart for Highest, Lowest, Temperature")
-        print("=======================================")
+        print('\n=======================================')
+        print('Chart for Highest, Lowest, Temperature')
+        print('=======================================')
         # Print the month and year
-        print(f"{calendar.month_name[month]} {year}")
+        print(f'{calendar.month_name[month]} {year}')
 
         # Iterate through the days and print the chart
         for day_data in weather_data[0]:
@@ -162,25 +162,25 @@ class Calculations:
             lowest_temp = int(day_data['min_temperatureC'])
 
             # Generate the bar chart for highest and lowest temperatures
-            highest_chart = f"{RED}{'+' * highest_temp}{RESET}"
-            lowest_chart = f"{BLUE}{'-' * lowest_temp}{RESET}"
+            highest_chart = f'{RED}{"+" * highest_temp}{RESET}'
+            lowest_chart = f'{BLUE}{"-" * lowest_temp}{RESET}'
 
             # Print the chart for the day
-            print(f"{day:02d} {highest_chart} {highest_temp}C")
-            print(f"{day:02d} {lowest_chart} {lowest_temp}C")
+            print(f'{day:02d} {highest_chart} {highest_temp}C')
+            print(f'{day:02d} {lowest_chart} {lowest_temp}C')
 
 
     def multiple_opt(self, directory_path, options):
-        """
+        '''
             @param directory_path, options: directry path to the directory where are files
                                 and options will ave multiples option to perform 
             @desc: This function will cal the multiple functions on the basis 
                                 of the option because it has multiple options 
             @return: none
-        """                
+        '''                
 
         # reading file from FileHandler class
-        file_data = FileHandler(directory_path, options)
+        file_data = FileHandler()
         weather_data = file_data.run_reading_file(directory_path, options)
 
         if 'highest_lowest' in options:
@@ -205,19 +205,19 @@ class Calculations:
 
     # run the calculations
     def run_calculations(self):
-        """
+        '''
             @param: none 
             @desc: This function will cal the function base on the optons i.efor hifgest_lowest temp
                     average highest lowest temp, chart  or multiple options 
             @return: none
-        """                
+        '''                
         if self.options:
             if len(self.options) > 1:
                 self.multiple_opt(self.directory_path, self.options)
 
             else:
                 # reading file from FileHandler class
-                file_data = FileHandler(self.directory_path, self.options)
+                file_data = FileHandler()
                 weather_data = file_data.run_reading_file(self.directory_path, self.options)
                 
                 if 'highest_lowest' in self.options:
