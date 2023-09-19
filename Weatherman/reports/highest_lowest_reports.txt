@@ -1,0 +1,5 @@
+Report for highest temperature, lowest temperature and humidity.
+Highest: 28C on June 05
+Lowest: 13C on June 02
+Humidity: 95% on June 20
+
