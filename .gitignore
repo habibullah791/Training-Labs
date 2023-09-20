@@ -3,7 +3,9 @@
 .idea/
 
 
-**/*.pdf
+.pdf
+
+
 __pycache__/
 
 # Distribution / packaging
