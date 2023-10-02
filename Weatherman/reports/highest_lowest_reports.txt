@@ -3,3 +3,38 @@ Highest: 28C on June 05
 Lowest: 13C on June 02
 Humidity: 95% on June 20
 
+Report for highest temperature, lowest temperature and humidity.
+Highest: 38C on August 07
+Lowest: 14C on August 13
+Humidity: 100% on August 28
+
+Report for highest temperature, lowest temperature and humidity.
+Highest: 38C on August 07
+Lowest: 14C on August 13
+Humidity: 100% on August 28
+
+Report for highest temperature, lowest temperature and humidity.
+Highest: 38C on August 07
+Lowest: 14C on August 13
+Humidity: 100% on August 28
+
+Report for highest temperature, lowest temperature and humidity.
+Highest: 38C on August 07
+Lowest: 14C on August 13
+Humidity: 100% on August 28
+
+Report for highest temperature, lowest temperature and humidity.
+Highest: 28C on June 05
+Lowest: 13C on June 02
+Humidity: 95% on June 20
+
+Report for highest temperature, lowest temperature and humidity.
+Highest: 28C on June 05
+Lowest: 13C on June 02
+Humidity: 95% on June 20
+
+Report for highest temperature, lowest temperature and humidity.
+Highest: 38C on August 07
+Lowest: 14C on August 13
+Humidity: 100% on August 28
+

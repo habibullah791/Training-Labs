@@ -29,6 +29,9 @@ class FileHandler:
     
     
     def get_file_name(self, directory_path, options):
+        
+        print("Options :", options)
+        print("Dir :", directory_path)
         '''
             @param directory_path, options: the directory path and options 
             @desc: It will search the given file in a specified directory 
